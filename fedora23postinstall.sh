@@ -73,13 +73,8 @@ sudo hwclock --systohc --localtime
 sudo touch /etc/yum.repos.d/google-chrome.repo
 
 # Past google chrome repo content #
-sudo nano /etc/yum.repos.d/google-chrome.repo
-#[google-chrome]
-#name=google-chrome
-#baseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch
-#enabled=1
-#gpgcheck=1
-#gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
+sudo wget https://github.com/donlovett/fedora23/blob/master/google-chrome.repo -O /etc/yum.repos.d/google-chrome.repo
+
 
 #  Install google chrome browser  #
 sudo dnf install google-chrome-stable
@@ -124,3 +119,23 @@ sudo git --version
 git config --global user.name "yourname"
 git config --global user.email "your name"
 git config --list
+
+# install grub customizer
+sudo dnf -y install grub-customizer
+
+# Install Eclipse Mars
+sudo dnf -y install eclipse
+
+#Start ssh on boot
+sudo dnf -y install openssh-server
+
+#Then, start the sshd service and make it automatically start next time you boot by
+
+sudo systemctl start sshd.service
+sudo systemctl enable sshd.service
+
+# Install Identify Policy and Audit server
+sudo dnf -y install freeipa-server
+
+# Install Subversion
+sudo dnf -y install svn
