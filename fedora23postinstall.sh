@@ -2,6 +2,11 @@
 #################################################
 # Post Installation Installations Fedora 23 Gnome3 
 #################################################
+function doWork() {
+
+START_TIME=$SECONDS
+
+echo "${yellow} $SECONDS ${reset}"
 # Set colors for echo command
 yellow=`tput setaf 3`
 cyan=`tput setaf 6`
@@ -132,11 +137,11 @@ sudo chmod +x fedy-installer
 sudo ./fedy-installer
 
 #Instll VNC Server for GUI access from a remote client.
-sudo dnf -y install tigervnc-server 
+#sudo dnf -y install tigervnc-server 
 # Set VNC password using user account you'll be connecting to from a remote machine
 # sudo vncpasswd "denver" 
 # Start VNC server by running below command.
-sudo vncserver :1 -geometry 800x600 -depth 24 
+#sudo vncserver :1 -geometry 800x600 -depth 24 
 
 # Install Gnome Tweek tool
 sudo dnf -y install gnome-tweak-tool
@@ -195,3 +200,15 @@ fi
 #sudo wget ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i486linux_enu.rpm
 
 sudo rpm -ivh AdbeRdr9.5.5-1_i486linux_enu.rpm 
+
+
+ELAPSED_TIME=$(($SECONDS - $START_TIME))
+echo ${cyan}  "$(($ELAPSED_TIME/60)) min $(($ELAPSED_TIME%60)) sec"  
+
+  
+    echo "Hello world"
+  
+echo "${white} "Script Complete" ${reset}"
+}
+  
+doWork | tee logfile
