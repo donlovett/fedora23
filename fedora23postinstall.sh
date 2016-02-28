@@ -2,23 +2,50 @@
 #################################################
 # Post Installation Installations Fedora 23 Gnome3 
 #################################################
+# Set colors for echo command
+yellow=`tput setaf 3`
+cyan=`tput setaf 6`
+white=`tput setaf 7`
 
 # update packages
 sudo dnf -y update
 
 # set the hostname
-sudo hostnamectl set-hostname --static “dondesk.projectbits.com”
+echo "${yellow} "Setting the host name" ${reset}"
+sudo hostnamectl set-hostname --static dondesk.projectbits.com
+echo "${white} "Host Name Set" ${reset}"
 
 #Activate RPMFusion repo
-sudo rpm -ivh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-stable.noarch.rp
+sudo rpm -ivh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-stable.noarch.rpm
 
+# "Install Google Chrome"
+echo "${yellow} "Install Google Chrome" ${reset}"
 #gedit /etc/yum.repos.d/google-chrome.repo
-[google-chrome]
+#[google-chrome]
 #name=google-chrome
 #baseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch
 #enabled=1
 #gpgcheck=1
 #gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
+
+#  Create google-chrome.repo file  #
+sudo touch /etc/yum.repos.d/google-chrome.repo
+
+# Past google chrome repo content #
+if test ! -f /etc/yum.repos.d/google-chrome.repo
+then
+echo File does not exit
+echo "Creating file for Google Chrome Repo..."
+sudo wget https://github.com/donlovett/fedora23/blob/master/google-chrome.repo -O /etc/yum.repos.d/google-chrome.repo
+else
+echo File exit. Do Nothing.
+fi
+
+#  Install google chrome browser  #
+sudo dnf install google-chrome-stable
+
+
+echo "${white} "Chrome Installed" ${reset}"
 
 # Install rar and zip utilities
 sudo dnf -y install unzip 
@@ -69,23 +96,25 @@ sudo ntpdate 0.fedora.pool.ntp.org
 sudo hwclock --systohc --localtime
 
 
-#  Create google-chrome.repo file  #
-sudo touch /etc/yum.repos.d/google-chrome.repo
-
-# Past google chrome repo content #
-sudo wget https://github.com/donlovett/fedora23/blob/master/google-chrome.repo -O /etc/yum.repos.d/google-chrome.repo
-
-
-#  Install google chrome browser  #
-sudo dnf install google-chrome-stable
-
 # Install filezilla
 sudo dnf -y install filezilla
 
 # Download latest Skype rpm file #
+echo "Download latest Skype rpm file"
+if test ! -f skype-4.3.0.37-fedora.i586.rpm
+then
+echo File does not exit
+echo "Downloading file for Skype..."
 sudo wget http://download.skype.com/linux/skype-4.3.0.37-fedora.i586.rpm
+else
+echo File exit. Do Nothing.
+fi
+
+
+#sudo wget http://download.skype.com/linux/skype-4.3.0.37-fedora.i586.rpm
 
 # Install Skype, This will install dependencies 
+echo "Install latest Skype rpm file"
 #
 sudo dnf -y install skype-4.3.0.37-fedora.i586.rpm
 
@@ -139,3 +168,30 @@ sudo dnf -y install freeipa-server
 
 # Install Subversion
 sudo dnf -y install svn
+
+# install RabbitVCS SVN Client
+sudo dnf -y install rabbitvcs*
+
+#Install Acrobat
+sudo dnf -y install libatk-1.0.so.0 
+sudo dnf -y install libgdk_pixbuf-2.0.so.0 
+sudo dnf -y install libgdk_pixbuf_xlib-2.0.so.0
+sudo dnf -y install libgdk-x11-2.0.so.0
+sudo dnf -y install libGLU.so.1
+sudo dnf -y install libgtk-x11-2.0.so.0
+sudo dnf -y install libpangox-1.0.so.0
+sudo dnf -y install libXt.so.6
+
+echo "Download Acrobat rpm file"
+if test ! -f AdbeRdr9.5.5-1_i486linux_enu.rpm
+then
+echo File does not exit
+echo "Downloading file for Skype..."
+sudo wget ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i486linux_enu.rpm
+else
+echo File exit. Do Nothing.
+fi
+
+#sudo wget ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i486linux_enu.rpm
+
+sudo rpm -ivh AdbeRdr9.5.5-1_i486linux_enu.rpm 
